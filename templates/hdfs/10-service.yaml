@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hadoop-namenode
+  labels:
+    app: hadoop
+    component: namenode
+spec:
+  type: NodePort  # 对外暴露 WebUI，同时不影响内部访问
+  ports:
+    # 保留 RPC 端口（集群内部组件访问，如 DataNode、Client）
+    - name: rpc
+      port: 8020
+      targetPort: 8020  # 对应 NameNode 容器的 RPC 端口
+    # WebUI 端口（同时支持内部 ClusterIP 和外部 NodePort 访问）
+    - name: web
+      port: 9870
+      targetPort: 9870  # 对应 NameNode 容器的 WebUI 端口
+      nodePort: 30007  # 固定外部访问端口（可选，30000-32767 范围内）
+  selector:
+    app: hadoop
+    component: namenode  # 与 NameNode Pod 的标签匹配
+---
+# ResourceManager Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: hadoop-resourcemanager
+  labels:
+    app: hadoop
+    component: resourcemanager
+spec:
+  type: NodePort
+  ports:
+    - name: web
+      port: 8088
+      targetPort: 8088
+      nodePort: 30088
+    - name: scheduler
+      port: 8030
+      targetPort: 8030
+    - name: tracker
+      port: 8031
+      targetPort: 8031
+    - name: admin
+      port: 8032
+      targetPort: 8032
+  selector:
+    app: hadoop
+    component: resourcemanager

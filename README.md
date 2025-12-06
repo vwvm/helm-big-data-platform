@@ -1,14 +1,16 @@
 # helm-big-data-platform
 A helm deployment method of hadoop + hive
-
-
 这是我的第一个Helm Chart发布体验！
 
 ## 这是什么？
-这是一个测试用的Helm Chart，用于学习和体验Helm Chart发布流程。
+一个基本的hadoop平台
+A basic hadoop platform
 
 ## 注意
-⚠️ **这是测试版本**，不建议在生产环境使用！
+**这是测试版本**，
+不建议在生产环境使用！
+**this is the test version**, 
+not recommended for use in the production environment!
 
 ## 安装
 ```bash
@@ -21,4 +23,5 @@ helm install my-bigdata vwvm-test/big-data-platform
 - hive
 
 ## 目的
-体验Helm Chart发布到Artifact Hub的完整流程。
+一键部署
+One-click deployment

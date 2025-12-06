@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hadoop-namenode
+  labels:
+    app: hadoop
+    component: namenode
+spec:
+  serviceName: hadoop-namenode
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hadoop
+      component: namenode
+  template:
+    metadata:
+      labels:
+        app: hadoop
+        component: namenode
+    spec:
+      containers:
+        - name: namenode
+          image: docker.1ms.run/apache/hadoop:3
+          # 简化命令：只在第一次启动时格式化
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # 创建必要目录
+              mkdir -p /tmp/hadoop-root/dfs/name
+              chmod -R 755 /tmp/hadoop-root
+              
+              # 检查是否已经格式化过
+              if [ ! -f /tmp/hadoop-root/dfs/name/current/VERSION ]; then
+                echo "Formatting NameNode..."
+                hdfs namenode -format -force
+              else
+                echo "NameNode already formatted, skipping..."
+              fi
+              
+              # 启动NameNode
+              echo "Starting NameNode..."
+              exec hdfs namenode
+          ports:
+            - containerPort: 9870
+              name: web
+            - containerPort: 8020
+              name: rpc
+          env:
+            - name: HADOOP_USER_NAME
+              value: "root"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /jmx
+              port: 9870
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /jmx
+              port: 9870
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          volumeMounts:
+            - name: hadoop-config-volume
+              mountPath: /opt/hadoop/etc/hadoop/core-site.xml
+              subPath: core-site.xml
+            - name: hadoop-config-volume
+              mountPath: /opt/hadoop/etc/hadoop/hdfs-site.xml
+              subPath: hdfs-site.xml
+      volumes:
+        - name: hadoop-config-volume
+          configMap:
+            name: hadoop-config

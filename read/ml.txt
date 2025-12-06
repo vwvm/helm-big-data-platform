@@ -1,0 +1,76 @@
+big-data-platform/                    # Chart根目录
+├── Chart.yaml                       # Chart元数据（必需）
+├── LICENSE                          # 许可证（推荐）
+├── README.md                        # 详细说明文档（必需）
+├── values.yaml                      # 默认配置（必需）
+├── values-minimal.yaml              # 最小化配置（测试用）
+├── values-production.yaml           # 生产环境配置
+├── values-development.yaml          # 开发环境配置
+├── .helmignore                      # Helm忽略文件（类似.gitignore）
+├── crds/                            # 自定义资源定义（如果需要）
+│   └── *.yaml
+├── charts/                          # 子Chart依赖（可选）
+│   └── *.tgz
+├── templates/                       # Kubernetes模板（核心）
+│   ├── _helpers.tpl                 # 模板辅助函数
+│   ├── _compatibility.tpl           # Kubernetes版本兼容
+│   ├── NOTES.txt                    # 安装后提示
+│   ├── tests/                       # 测试资源
+│   │   ├── test-connection.yaml
+│   │   └── test-basic.yaml
+│   ├── common/                      # 公共资源
+│   │   ├── namespace.yaml           # 命名空间
+│   │   ├── serviceaccount.yaml      # 服务账户
+│   │   ├── rbac.yaml                # RBAC权限
+│   │   ├── configmap-common.yaml    # 公共配置
+│   │   ├── secrets.yaml             # 密钥（模板）
+│   │   └── networkpolicy.yaml       # 网络策略
+│   ├── hdfs/                        # HDFS组件
+│   │   ├── configmap-hdfs.yaml      # HDFS配置
+│   │   ├── namenode-statefulset.yaml
+│   │   ├── namenode-service.yaml
+│   │   ├── datanode-daemonset.yaml
+│   │   ├── datanode-service.yaml
+│   │   ├── journalnode-statefulset.yaml（HA）
+│   │   └── pvc-hdfs.yaml            # 持久卷声明
+│   ├── yarn/                        # YARN组件
+│   │   ├── configmap-yarn.yaml
+│   │   ├── resourcemanager-deployment.yaml
+│   │   ├── resourcemanager-service.yaml
+│   │   ├── nodemanager-daemonset.yaml
+│   │   └── nodemanager-service.yaml
+│   ├── spark/                       # Spark组件
+│   │   ├── configmap-spark.yaml
+│   │   ├── master-statefulset.yaml
+│   │   ├── master-service.yaml
+│   │   ├── worker-deployment.yaml
+│   │   └── historyserver-deployment.yaml
+│   ├── zookeeper/                   # ZooKeeper
+│   │   ├── zookeeper-statefulset.yaml
+│   │   └── zookeeper-service.yaml
+│   ├── hive/                        # Hive（可选）
+│   │   ├── metastore-deployment.yaml
+│   │   ├── metastore-service.yaml
+│   │   ├── server2-deployment.yaml
+│   │   └── server2-service.yaml
+│   ├── monitoring/                  # 监控组件
+│   │   ├── prometheus-config.yaml
+│   │   ├── grafana-deployment.yaml
+│   │   └── service-monitor.yaml
+│   └── ingress/                     # 外部访问
+│       ├── ingress-hdfs.yaml
+│       ├── ingress-yarn.yaml
+│       └── ingress-spark.yaml
+├── scripts/                         # 辅助脚本
+│   ├── install.sh                   # 一键安装脚本
+│   ├── upgrade.sh                   # 升级脚本
+│   ├── uninstall.sh                 # 卸载脚本
+│   ├── health-check.sh              # 健康检查
+│   └── backup.sh                    # 备份脚本
+├── examples/                        # 使用示例
+│   ├── simple-values.yaml           # 简单配置示例
+│   ├── production-values.yaml       # 生产配置示例
+│   └── custom-values.yaml           # 自定义配置示例
+└── docs/                            # 文档（Helm仓库）
+    ├── index.yaml                   # Helm仓库索引
+    └── *.tgz                        # 打包的Chart文件

@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hadoop-datanode
+  labels:
+    app: hadoop
+    component: datanode
+spec:
+  serviceName: "hadoop-datanode"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hadoop
+      component: datanode
+  template:
+    metadata:
+      labels:
+        app: hadoop
+        component: datanode
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+      initContainers:
+        - name: init-datanode-dir
+          image: docker.1ms.run/apache/hadoop:3
+          command:
+            - "sh"
+            - "-c"
+            - |
+              mkdir -p /hadoop/data/dfs/data /hadoop/logs
+              chmod -R 777 /hadoop/data /hadoop/logs
+              rm -rf /hadoop/data/dfs/data/*
+          volumeMounts:
+            - name: hadoop-data-dir
+              mountPath: /hadoop/data
+            - name: hadoop-logs-dir
+              mountPath: /hadoop/logs
+      containers:
+        - name: datanode
+          image: docker.1ms.run/apache/hadoop:3
+          command: [ "hdfs", "datanode" ]
+          ports:
+            - containerPort: 9864
+              name: data
+          env:
+            - name: HADOOP_USER_NAME
+              value: "root"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          volumeMounts:
+            - name: hadoop-config-volume
+              mountPath: /opt/hadoop/etc/hadoop/core-site.xml
+              subPath: core-site.xml
+            - name: hadoop-config-volume
+              mountPath: /opt/hadoop/etc/hadoop/hdfs-site.xml
+              subPath: hdfs-site.xml
+            # 挂载持久化数据目录（替换/tmp）
+            - name: hadoop-data-dir
+              mountPath: /hadoop/data
+            # 挂载日志目录，方便排查问题
+            - name: hadoop-logs-dir
+              mountPath: /hadoop/logs
+            # 覆盖hadoop.tmp.dir，指向持久化目录
+            - name: hadoop-data-dir
+              mountPath: /tmp/hadoop-root  # 兼容Hadoop默认临时目录，实际数据在/hadoop/data
+      volumes:
+        - name: hadoop-config-volume
+          configMap:
+            name: hadoop-config
+        # 日志目录：使用emptyDir，或替换为PVC（生产环境推荐PVC）
+        - name: hadoop-logs-dir
+          emptyDir: { }
+  # PVC模板：关键是指定storageClassName，触发自动创建PV
+  volumeClaimTemplates:
+    - metadata:
+        name: hadoop-data-dir
+      spec:
+        storageClassName: local-path  # 指定StorageClass，自动创建PV
+        accessModes: [ "ReadWriteOnce" ]  # 只能被一个Pod挂载
+        resources:
+          requests:
+            storage: 5Gi  # 每个DataNode需要5Gi存储

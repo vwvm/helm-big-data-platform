@@ -1,84 +1,58 @@
-replicaCount: 1
+coreSite:
+  fs:
+    default:
+      name: "hdfs://hadoop-namenode"
+    defaultFS: "hdfs://hadoop-namenode"
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  tag: ""
+hdfsSite:
+  dfs:
+    namenode:
+      rpcAddress: "0.0.0.0:8020"
+      serverAddress: "hadoop-namenode:8020"
+    replication: 1
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+mapredSite:
+  mapreduce:
+    framework:
+      name: yarn
+    yarn:
+      app:
+        mapreduce:
+          am:
+            env: HADOOP_MAPRED_HOME=$HADOOP_HOME
+    map:
+      env: HADOOP_MAPRED_HOME=$HADOOP_HOME
+    reduce:
+      env: HADOOP_MAPRED_HOME=$HADOOP_HOME
 
-serviceAccount:
-  create: true
-  automount: true
-  annotations: {}
-  name: ""
+yarnSite:
+  yarn:
+    resourcemanager:
+      hostname: resourcemanager
+    nodemanager:
+      pmemCheckEnabled: false
+      deleteDebugDelaySec: 600
+      vmemCheckEnabled: false
+      auxServices: mapreduce_shuffle
 
-podAnnotations: {}
-podLabels: {}
-
-podSecurityContext: {}
-
-securityContext: {}
-
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-
-httpRoute:
-  enabled: false
-  annotations: {}
-  parentRefs:
-  - name: gateway
-    sectionName: http
-
-  hostnames:
-  - chart-example.local
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /headers
-
-
-resources: {}
-
-
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-
-volumes: []
-
-volumeMounts: []
-
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+capacityScheduler:
+  yarn:
+    scheduler:
+      capacity:
+        maximumApplications: 10000
+        maximumAmResourcePercent: 0.1
+        resourceCalculator: org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator
+        root:
+          queues: default
+          default:
+            capacity: 100
+            userLimitFactor: 1
+            maximumCapacity: 100
+            state: RUNNING
+            acl:
+              submitApplications: "*"
+              administerQueue: "*"
+        nodeLocalityDelay: 40
+        queueMappings: ""
+        queueMappingsOverride:
+          enable: false
