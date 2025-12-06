@@ -1,8 +1,8 @@
 apiVersion: v2
 name: big-data-platform
-description: My first Helm chart for Big Data platform (for testing)
+description: namenode+datanode
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.0.0"
 keywords:
   - hadoop
