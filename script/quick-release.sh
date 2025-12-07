@@ -8,11 +8,26 @@ echo "======================"
 CURRENT=$(grep '^version:' Chart.yaml | awk '{print $2}')
 echo "当前版本: $CURRENT"
 
-# 输入新版本
-read -p "新版本号 (例如 0.1.2): " NEW
+# 解析版本号的三个部分
+IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
 
-# 验证输入
-if [[ ! $NEW =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+# 自动计算新版本（修订号+1）
+AUTO_NEW="$MAJOR.$MINOR.$((PATCH + 1))"
+echo "建议的新版本: $AUTO_NEW"
+
+# 询问用户确认
+read -p "按回车使用建议版本 $AUTO_NEW，或输入新版本号: " USER_INPUT
+
+
+if [[ -z "$USER_INPUT" ]]; then
+    # 用户直接按回车，使用自动版本
+    NEW=$AUTO_NEW
+    echo "使用自动版本: $NEW"
+elif [[ $USER_INPUT =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    # 用户输入了有效的版本号
+    NEW=$USER_INPUT
+    echo "使用自定义版本: $NEW"
+else
     echo "错误: 版本号格式应为 X.Y.Z"
     exit 1
 fi

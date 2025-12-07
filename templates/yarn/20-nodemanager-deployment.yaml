@@ -76,22 +76,3 @@ spec:
         - name: hadoop-config
           configMap:
             name: hadoop-config
----
-# NodeManager Service（NodePort 用于访问 WebUI）
-apiVersion: v1
-kind: Service
-metadata:
-  name: hadoop-nodemanager-webui
-  labels:
-    app: hadoop
-    component: nodemanager-webui
-spec:
-  type: NodePort
-  ports:
-    - name: web
-      port: 8042
-      targetPort: 8042
-      nodePort: 30008
-  selector:
-    app: hadoop
-    component: nodemanager
