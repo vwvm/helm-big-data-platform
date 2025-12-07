@@ -37,3 +37,10 @@ helm install my-bigdata vwvm-test/big-data-platform
 ## 目的
 一键部署
 One-click deployment
+
+## 查看
+多使用下面的命令查看问题
+```shell
+kubectl describe
+kubectl logs
+```
