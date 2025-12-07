@@ -4,7 +4,8 @@ metadata:
   name: hive-metastore-service
 spec:
   selector:
-    app: hive-metastore
+    app: hive
+    component: metastore
   ports:
     - port: 9083
       targetPort: 9083

@@ -31,8 +31,8 @@ spec:
               value: "-Dhive.metastore.uris=thrift://hive-metastore-service:9083"
             - name: IS_RESUME
               value: "true"
-            - name: HADOOP_CONF_DIR
-              value: /opt/hive/conf
+#            - name: HADOOP_CONF_DIR
+#              value: /opt/hive/conf
           ports:
             - containerPort: 10000
             - containerPort: 10002
