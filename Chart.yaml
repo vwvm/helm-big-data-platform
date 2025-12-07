@@ -2,13 +2,8 @@ apiVersion: v2
 name: big-data-platform
 description: namenode+datanode
 type: application
-<<<<<<< HEAD
-version: 0.2.0
+version: 0.2.1
 appVersion: "2.0.0"
-=======
-version: 0.1.4
-appVersion: "1.0.0"
->>>>>>> 88d66d7a6e23b8219efb8e2d4d420316beac1db8
 keywords:
   - hadoop
   - spark
