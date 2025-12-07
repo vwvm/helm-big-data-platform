@@ -18,3 +18,20 @@ maintainers:
     email: vwvmnu@gmail.com
 annotations:
   artifacthub.io/prerelease: "true"
+
+dependencies:
+  - name: mysql
+    version: 0.2.1
+    repository: file://./charts/mysql
+  - name: hdfs
+    version: 0.2.1
+    alias: hdfs
+    repository: file://./charts/hdfs
+  - name: yarn
+    version: 0.2.1
+    alias: yarn
+    repository: file://./charts/yarn
+  - name: hive
+    version: 0.2.1
+    alias: hive
+    repository: file://./charts/hive
