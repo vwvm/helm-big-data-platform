@@ -3,6 +3,12 @@ replicas:
   hdfs:
     namenode: 1
     datanode: 2
+  yarn:
+    resourcemanager: 1
+    nodemanager: 2
+web:
+  namenode: 30087
+  resourcemanager: 30088
 
 coreSite:
   fs:

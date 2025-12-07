@@ -19,7 +19,8 @@ helm install my-bigdata vwvm-test/big-data-platform
 ```
 
 ## 组件
-- hadoop hdfs
+- hdfs
+- yarn
 - hive
 
 ## 目的

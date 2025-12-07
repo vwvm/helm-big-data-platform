@@ -16,35 +16,7 @@ spec:
     - name: web
       port: 9870
       targetPort: 9870  # 对应 NameNode 容器的 WebUI 端口
-      nodePort: 30007  # 固定外部访问端口（可选，30000-32767 范围内）
+      nodePort: {{ .Values.web.namenode }}
   selector:
     app: hadoop
     component: namenode  # 与 NameNode Pod 的标签匹配
----
-# ResourceManager Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: hadoop-resourcemanager
-  labels:
-    app: hadoop
-    component: resourcemanager
-spec:
-  type: NodePort
-  ports:
-    - name: web
-      port: 8088
-      targetPort: 8088
-      nodePort: 30088
-    - name: scheduler
-      port: 8030
-      targetPort: 8030
-    - name: tracker
-      port: 8031
-      targetPort: 8031
-    - name: admin
-      port: 8032
-      targetPort: 8032
-  selector:
-    app: hadoop
-    component: resourcemanager
