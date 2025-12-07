@@ -1,6 +1,17 @@
 # helm-big-data-platform
 A helm deployment method of hadoop + hive
-这是我的第一个Helm Chart发布体验！
+一个hadoop+hive
+
+## 基础条件
+- kube 1.32.2
+- helm version 4.0.1
+- helmfile version 1.2.2
+
+## 插件
+```shell
+# helm tiff
+helm plugin install https://github.com/databus23/helm-diff --verify=false
+```
 
 ## 这是什么？
 一个基本的hadoop平台

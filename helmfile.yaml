@@ -1,0 +1,42 @@
+helmDefaults:
+  createNamespace: false
+  timeout: 60
+  wait: true
+  verify: false
+
+environments:
+  dev:
+    values:
+      - environments/dev.yaml
+  prod:
+    values:
+      - environments/prod.yaml
+
+---
+releases:
+  - name: configmap
+    chart: ./charts/configmap
+    version: 0.2.1
+    namespace: default
+
+  - name: hdfs
+    chart: ./charts/hdfs
+    version: 0.2.1
+    namespace: default
+
+  - name: yarn
+    chart: ./charts/yarn
+    version: 0.2.1
+    namespace: default
+
+  - name: mysql
+    chart: ./charts/mysql
+    version: 0.2.1
+    namespace: default
+
+  - name: hive
+    chart: ./charts/hive
+    version: 0.2.1
+    namespace: default
+    values:
+      - values/hive-values.yaml
