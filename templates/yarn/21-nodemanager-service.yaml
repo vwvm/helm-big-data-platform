@@ -12,7 +12,7 @@ spec:
     - name: web
       port: 8042
       targetPort: 8042
-      nodePort: {{ .Values.web.nodemanager }}
+      nodePort: {{ .Values.port.web.nodemanager }}
   selector:
     app: hadoop
     component: nodemanager

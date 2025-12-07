@@ -16,7 +16,7 @@ spec:
     - name: web
       port: 9870
       targetPort: 9870  # 对应 NameNode 容器的 WebUI 端口
-      nodePort: {{ .Values.web.namenode }}
+      nodePort: {{ .Values.port.web.namenode }}
   selector:
     app: hadoop
     component: namenode  # 与 NameNode Pod 的标签匹配

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: docker.1ms.run/mysql:5.7
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD  # 环境变量名（MySQL镜像规定的，不能改）
+              value: "root"  # 变量值：MySQL root用户的密码（必须设置，否则容器启动失败）
+              # 学习阶段可以设简单点（比如123456），但生产环境必须强密码（字母+数字+符号）
+            - name: MYSQL_DATABASE  # 可选环境变量：容器启动时自动创建一个数据库
+              value: "test"  # 数据库名：test，后续连接可以直接用这个库，不用手动创建
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+

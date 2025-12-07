@@ -6,10 +6,13 @@ replicas:
   yarn:
     resourcemanager: 1
     nodemanager: 2
-web:
-  namenode: 30087
-  resourcemanager: 30088
-  nodemanager: 30089
+port:
+  web:
+    namenode: 30087
+    resourcemanager: 30088
+    nodemanager: 30089
+  server:
+    mysql: 30006
 
 coreSite:
   fs:

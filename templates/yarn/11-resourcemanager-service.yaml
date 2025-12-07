@@ -12,7 +12,7 @@ spec:
     - name: web
       port: 8088
       targetPort: 8088
-      nodePort: {{ .Values.web.resourcemanager }}
+      nodePort: {{ .Values.port.web.resourcemanager }}
     - name: scheduler
       port: 8030
       targetPort: 8030
