@@ -4,8 +4,32 @@ entries:
   - annotations:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
+    appVersion: 2.0.0
+    created: "2025-12-07T07:18:26.693236737Z"
+    description: namenode+datanode
+    digest: 6f8804e67fb59e23b5131eeac598f5585a6c804dd6538f3f254ec36555487c2e
+    home: https://github.com/vwvm/helm-big-data-platform
+    keywords:
+    - hadoop
+    - spark
+    - bigdata
+    - kubernetes
+    - test
+    maintainers:
+    - email: vwvmnu@gmail.com
+      name: blackbox
+    name: big-data-platform
+    sources:
+    - https://github.com/vwvm/helm-big-data-platform
+    type: application
+    urls:
+    - https://vwvm.github.io/helm-big-data-platform/big-data-platform-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-12-07T06:48:54.265534159Z"
+    created: "2025-12-07T07:18:26.67658929Z"
     description: namenode+datanode
     digest: ef0da319ad80fc1be82b54215330fa5201c30a9d03694659cd0c2a477a87bf0f
     home: https://github.com/vwvm/helm-big-data-platform
@@ -29,7 +53,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-12-07T06:48:54.25967958Z"
+    created: "2025-12-07T07:18:26.672421854Z"
     description: namenode+datanode
     digest: 692cbad2c0d6a584ee127c335d9471e722a5f7d8ab54b9a141acbe1ad4597d5a
     home: https://github.com/vwvm/helm-big-data-platform
@@ -53,7 +77,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-12-07T06:48:54.254847514Z"
+    created: "2025-12-07T07:18:26.668130016Z"
     description: namenode+datanode
     digest: 113e7b795c921bef939d2b6e66e6cf167696119e20128fdf7f35c049737e5d85
     home: https://github.com/vwvm/helm-big-data-platform
@@ -77,7 +101,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-12-07T06:48:54.246666203Z"
+    created: "2025-12-07T07:18:26.661295656Z"
     description: My first Helm chart for Big Data platform (for testing)
     digest: 646c5835827624c996b4c174a7bbf7d0f78ebccec545e06cc82100352c6a7c1d
     home: https://github.com/vwvm/helm-big-data-platform
@@ -101,7 +125,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-12-07T06:48:54.243618162Z"
+    created: "2025-12-07T07:18:26.650994065Z"
     description: My first Helm chart for Big Data platform (for testing)
     digest: a63f73fbd58377db816d17c7377902105f145acbaa4eea31e4620fe058ff6ed4
     home: https://github.com/vwvm/helm-big-data-platform
@@ -121,4 +145,4 @@ entries:
     urls:
     - https://vwvm.github.io/helm-big-data-platform/big-data-platform-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-07T06:48:54.242096742Z"
+generated: "2025-12-07T07:18:26.646436424Z"
