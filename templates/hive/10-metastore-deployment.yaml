@@ -1,0 +1,57 @@
+# Hive Metastore Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-metastore
+  labels:
+    app: hive
+    component: metastore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hive
+      component: metastore
+  template:
+    metadata:
+      labels:
+        app: hive
+        component: metastore
+    spec:
+      containers:
+        - name: metastore
+          image: docker.1ms.run/apache/hive:4.1.0
+          ports:
+            - containerPort: 9083
+          env:
+            - name: SERVICE_NAME
+              value: "metastore"
+            - name: DB_DRIVER
+              value: "mysql"
+            - name: SERVICE_OPTS
+              value: "-Djavax.jdo.option.ConnectionDriverName=com.mysql.jdbc.Driver -Djavax.jdo.option.ConnectionURL=jdbc:mysql://mysql-service:3306/metastore_db?createDatabaseIfNotExist=true&useSSL=false -Djavax.jdo.option.ConnectionUserName=root -Djavax.jdo.option.ConnectionPassword=root"
+          volumeMounts:
+            - name: mysql-driver
+              mountPath: /opt/hive/lib/mysql-connector-java-5.1.49.jar
+              subPath: mysql-connector-java-5.1.49.jar
+              readOnly: true
+            - name: hadoop-config
+              mountPath: /opt/hive/conf/core-site.xml
+              subPath: core-site.xml
+              readOnly: true
+            - name: hadoop-config
+              mountPath: /opt/hive/conf/hdfs-site.xml
+              subPath: hdfs-site.xml
+              readOnly: true
+            - name: hadoop-config
+              mountPath: /opt/hive/conf/yarn-site.xml
+              subPath: yarn-site.xml
+              readOnly: true
+      volumes:
+        - name: mysql-driver
+          hostPath:
+            path: /opt/k8s-shared/hive
+            type: Directory
+        - name: hadoop-config
+          configMap:
+            name: hadoop-config
