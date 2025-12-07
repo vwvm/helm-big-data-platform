@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive-server2
+  labels:
+      app: hive
+      component: server2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hive
+      component: server2
+  template:
+    metadata:
+      labels:
+        app: hive
+        component: server2
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+      containers:
+        - name: hiveserver2
+          image: docker.1ms.run/apache/hive:4.1.0
+          env:
+            - name: SERVICE_NAME
+              value: hiveserver2
+            - name: SERVICE_OPTS
+              value: "-Dhive.metastore.uris=thrift://hive-metastore-service:9083"
+            - name: IS_RESUME
+              value: "true"
+            - name: HADOOP_CONF_DIR
+              value: /opt/hive/conf
+          ports:
+            - containerPort: 10000
+            - containerPort: 10002
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: hadoop-config
+              mountPath: /opt/hive/conf/core-site.xml
+              subPath: core-site.xml
+            - name: hadoop-config
+              mountPath: /opt/hive/conf/hdfs-site.xml
+              subPath: hdfs-site.xml
+            - name: hadoop-config
+              mountPath: /opt/hive/conf/yarn-site.xml
+              subPath: yarn-site.xml
+            - name: hadoop-config
+              mountPath: /opt/hive/conf/mapred-site.xml
+              subPath: mapred-site.xml
+            - name: hive-config
+              mountPath: /opt/hive/conf/hive-site.xml
+              subPath: hive-site.xml
+            - name: nfs-hive-data
+              mountPath: /mnt/nfs_share/hive-data
+              subPath: hive-data
+      volumes:
+        - name: hadoop-config
+          configMap:
+            name: hadoop-config
+        - name: hive-config
+          configMap:
+            name: hive-config
+        - name: nfs-hive-data
+          persistentVolumeClaim:
+            claimName: hive-pvc
