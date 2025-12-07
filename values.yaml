@@ -1,3 +1,9 @@
+# 节点的数量
+replicas:
+  hdfs:
+    namenode: 1
+    datanode: 2
+
 coreSite:
   fs:
     default:
