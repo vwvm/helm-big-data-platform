@@ -53,7 +53,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-12-07T07:18:26.672421854Z"
+    created: "2025-12-07T07:18:26.672421854Z
     description: namenode+datanode
     digest: 692cbad2c0d6a584ee127c335d9471e722a5f7d8ab54b9a141acbe1ad4597d5a
     home: https://github.com/vwvm/helm-big-data-platform
