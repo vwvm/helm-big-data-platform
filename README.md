@@ -9,6 +9,7 @@ A helm deployment method of hadoop + hive
 
 ## 插件
 ```shell
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.18.2/cert-manager.yaml
 # helm tiff
 helm plugin install https://github.com/databus23/helm-diff --verify=false
 ```

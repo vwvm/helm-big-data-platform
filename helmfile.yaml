@@ -41,6 +41,13 @@ releases:
     version: 0.2.1
     namespace: default
 
+  - name: flink-kubernetes
+    chart: ./charts/flink-kubernetes-operator
+    version: 1.13-SNAPSHOT
+    namespace: default
+    values:
+      - values/flink-values.yaml
+
   - name: hive
     chart: ./charts/hive
     version: 0.2.1

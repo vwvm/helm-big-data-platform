@@ -83,4 +83,17 @@ data:
             <name>mapreduce.reduce.memory.mb</name>
             <value>900</value>
         </property>
+        <!--  禁用安全检查  -->
+        <property>
+          <name>hive.security.authorization.enabled</name>
+          <value>false</value>
+        </property>
+        <property>
+          <name>hive.security.authorization.manager</name>
+          <value></value>
+        </property>
+        <property>
+          <name>hive.security.authenticator.manager</name>
+          <value></value>
+        </property>
     </configuration>
