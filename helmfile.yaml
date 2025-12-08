@@ -18,6 +18,8 @@ releases:
     chart: ./charts/configmap
     version: 0.2.1
     namespace: default
+    values:
+      - values/yarn-values.yaml
 
   - name: hdfs
     chart: ./charts/hdfs
@@ -28,6 +30,8 @@ releases:
     chart: ./charts/yarn
     version: 0.2.1
     namespace: default
+    values:
+      - values/yarn-values.yaml
 
   - name: mysql
     chart: ./charts/mysql

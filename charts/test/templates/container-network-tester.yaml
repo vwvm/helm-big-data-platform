@@ -1,0 +1,20 @@
+# container-network-tester.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: container-network-tester
+  namespace: default  # 放在需要测试的同一个namespace
+spec:
+  containers:
+    - name: tester
+      image: curlimages/curl:latest  # 小型curl镜像，仅23MB
+      command: ["/bin/sh"]
+      args: ["-c", "sleep infinity"]
+      securityContext:
+        runAsUser: 0  # root权限
+        capabilities:
+          add:
+            - NET_RAW  # 允许原始套接字（ping需要）
+            - NET_ADMIN  # 网络管理权限
+      stdin: true
+      tty: true

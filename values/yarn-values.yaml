@@ -1,0 +1,16 @@
+yarn:
+  nodemanager:
+    resource:
+      # 每个NodeManager可分配的总CPU核数
+      cpuVcores: 1
+      # 每个NodeManager可分配的总内存(MB)
+      memoryMb: 999
+  scheduler:
+    # 任务最大分配内存 nodemanager.resource.memory-mb
+    maximumAllocationMb: 998
+    # 任务最大分配CPU核数 nodemanager.resource.cpu-vcores
+    maximumAllocationVcores: 1
+    # 任务最小分配内存
+    minimumAllocationMb: 512
+    # 任务最小分配CPU核数
+    minimumAllocationVcores: 1

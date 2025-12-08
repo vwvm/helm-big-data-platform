@@ -47,13 +47,11 @@ data:
             <name>dfs.datanode.data.dir</name>
             <value>/tmp/hadoop-root/dfs/data</value>
         </property>
-        <!-- 配置 NameNode RPC 绑定地址：0.0.0.0（监听所有网络接口，适配 K8s 网络） -->
+        
         <property>
           <name>dfs.namenode.rpc-bind-host</name>
           <value>0.0.0.0</value>
-          <description>NameNode RPC 服务绑定的地址，0.0.0.0 表示监听所有网卡</description>
         </property>
-        <!-- 配置 NameNode HTTP 绑定地址（Web UI 端口，避免同时报错） -->
         <property>
           <name>dfs.namenode.http-bind-host</name>
           <value>0.0.0.0</value>
@@ -90,32 +88,29 @@ data:
         </property>
         <property>
             <name>yarn.nodemanager.resource.memory-mb</name>
-            <value>1024</value>  <!-- 不能超过limits.memory: 2Gi -->
-            <description>每个NodeManager可分配的总内存(MB)</description>
+            <value>{{ .Values.yarn.nodemanager.resource.memoryMb }}</value>
         </property>
         <property>
             <name>yarn.nodemanager.resource.cpu-vcores</name>
-            <value>1</value>  <!-- 对应limits.cpu: 1 -->
-            <description>每个NodeManager可分配的总CPU虚拟核心数</description>
+            <value>{{ .Values.yarn.nodemanager.resource.cpuVcores }}</value>
         </property>
         <!-- 关键：设置调度器最大分配 -->
         <property>
             <name>yarn.scheduler.maximum-allocation-mb</name>
-            <value>1536</value>  <!-- 必须等于或小于nodemanager.resource.memory-mb -->
+            <value>{{ .Values.yarn.scheduler.maximumAllocationMb }}</value>  
         </property>
         <property>
             <name>yarn.scheduler.maximum-allocation-vcores</name>
-            <value>1</value>    <!-- 必须等于或小于nodemanager.resource.cpu-vcores -->
-        </property>
-        
+            <value>{{ .Values.yarn.scheduler.maximumAllocationVcores }}</value>
+        </property>    
         <!-- 最小分配 -->
         <property>
             <name>yarn.scheduler.minimum-allocation-mb</name>
-            <value>512</value>
+            <value>{{ .Values.yarn.scheduler.minimumAllocationMb }}</value>
         </property>
         <property>
             <name>yarn.scheduler.minimum-allocation-vcores</name>
-            <value>1</value>
+            <value>{{ .Values.yarn.scheduler.minimumAllocationVcores }}</value>
         </property>
     </configuration>
 
@@ -143,7 +138,7 @@ data:
         <!-- Application Master资源 -->
         <property>
             <name>yarn.app.mapreduce.am.resource.mb</name>
-            <value>1024</value>
+            <value>998</value>
         </property>
         <property>
             <name>yarn.app.mapreduce.am.command-opts</name>
