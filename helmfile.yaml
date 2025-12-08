@@ -1,9 +1,8 @@
 helmDefaults:
   createNamespace: false
-  timeout: 60
+  timeout: 600
   wait: true
   verify: false
-
 environments:
   dev:
     values:
@@ -25,12 +24,16 @@ releases:
     chart: ./charts/hdfs
     version: 0.2.1
     namespace: default
+    values:
+      - values/hive-values.yaml
+      - values/yarn-values.yaml
 
   - name: yarn
     chart: ./charts/yarn
     version: 0.2.1
     namespace: default
     values:
+      - values/hive-values.yaml
       - values/yarn-values.yaml
 
   - name: mysql
@@ -44,6 +47,7 @@ releases:
     namespace: default
     values:
       - values/hive-values.yaml
+      - values/yarn-values.yaml
 
   - name: test
     chart: ./charts/test

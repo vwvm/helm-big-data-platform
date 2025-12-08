@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: nodemanager
-          image: docker.1ms.run/apache/hadoop:3.4.1
+          image: docker.1ms.run/apache/hadoop:3
           command: ["yarn", "nodemanager"]
           ports:
             - containerPort: 8042

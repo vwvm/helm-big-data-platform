@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: metastore
-          image: docker.1ms.run/apache/hive:4.1.0
+          image: docker.1ms.run/apache/hive:4.2.0
           ports:
             - containerPort: 9083
           env:

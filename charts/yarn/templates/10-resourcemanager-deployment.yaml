@@ -20,7 +20,7 @@ spec:
       hostname: hadoop-resourcemanager
       containers:
         - name: resourcemanager
-          image: docker.1ms.run/apache/hadoop:3.4.1
+          image: docker.1ms.run/apache/hadoop:3
           command: ["yarn", "resourcemanager"]
           ports:
             - containerPort: 8088

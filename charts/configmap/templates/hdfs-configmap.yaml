@@ -49,6 +49,19 @@ data:
         </property>
         
         <property>
+          <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+          <value>false</value>
+        </property>    
+        <property>
+          <name>dfs.client.use.datanode.hostname</name>
+          <value>false</value>
+        </property>    
+        <property>
+          <name>dfs.datanode.use.datanode.hostname</name>
+          <value>false</value>
+        </property>
+        
+        <property>
           <name>dfs.namenode.rpc-bind-host</name>
           <value>0.0.0.0</value>
         </property>
@@ -118,36 +131,50 @@ data:
   mapred-site.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
     <configuration>
-        <!-- 设置保守的资源请求值 -->
+        <property>
+            <name>mapreduce.framework.name</name>
+            <value>yarn</value>
+        </property>
+        <property>
+            <name>yarn.app.mapreduce.am.env</name>
+            <value>HADOOP_MAPRED_HOME=$HADOOP_HOME</value>
+        </property>
+        <property>
+            <name>mapreduce.map.env</name>
+            <value>HADOOP_MAPRED_HOME=$HADOOP_HOME</value>
+        </property>
+        <property>
+            <name>mapreduce.reduce.env</name>
+            <value>HADOOP_MAPRED_HOME=$HADOOP_HOME</value>
+        </property>
         <property>
             <name>mapreduce.map.memory.mb</name>
-            <value>512</value>
+            <value>{{ .Values.yarn.mapreduce.map.memory.mb }}</value>
         </property>
         <property>
-            <name>mapreduce.reduce.memory.mb</name>
-            <value>768</value>
+          <name>mapreduce.reduce.memory.mb</name>
+          <value>{{ .Values.yarn.mapreduce.reduce.memory.mb }}</value>
         </property>
-        <property>
-            <name>mapreduce.map.cpu.vcores</name>
-            <value>1</value>
-        </property>
-        <property>
-            <name>mapreduce.reduce.cpu.vcores</name>
-            <value>1</value>
-        </property>
-        <!-- Application Master资源 -->
         <property>
             <name>yarn.app.mapreduce.am.resource.mb</name>
-            <value>998</value>
+            <value>{{ .Values.yarn.mapreduce.am.resource.mb }}</value>
         </property>
-        <!-- Java堆内存设置 -->
+        
+        <!-- 覆盖AM的JVM参数 -->
         <property>
-            <name>mapreduce.map.java.opts</name>
-            <value>-Xmx409m</value>  <!-- 内存的80%左右 -->
+          <name>yarn.app.mapreduce.am.command-opts</name>
+          <value>-Xmx630m</value>
         </property>
+        
+        <!-- 覆盖Map任务的JVM参数 -->
         <property>
-            <name>mapreduce.reduce.java.opts</name>
-            <value>-Xmx614m</value>
+          <name>mapreduce.map.java.opts</name>
+          <value>-Xmx630m</value>
         </property>
+        
+        <!-- 覆盖Reduce任务的JVM参数 -->
+        <property>
+          <name>mapreduce.reduce.java.opts</name>
+          <value>-Xmx630m</value>
+        </property>   
     </configuration>
----
