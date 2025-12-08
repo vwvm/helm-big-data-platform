@@ -24,7 +24,7 @@ spec:
         fsGroup: 0
       initContainers:
         - name: init-datanode-dir
-          image: docker.1ms.run/apache/hadoop:3
+          image: docker.1ms.run/apache/hadoop:3.4.1
           command:
             - "sh"
             - "-c"

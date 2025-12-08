@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: namenode
-          image: docker.1ms.run/apache/hadoop:3
+          image: docker.1ms.run/apache/hadoop:3.4.1
           # 简化命令：只在第一次启动时格式化
           command: ["/bin/sh", "-c"]
           args:

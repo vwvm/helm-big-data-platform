@@ -140,10 +140,6 @@ data:
             <name>yarn.app.mapreduce.am.resource.mb</name>
             <value>998</value>
         </property>
-        <property>
-            <name>yarn.app.mapreduce.am.command-opts</name>
-            <value>-Xmx819m</value>
-        </property>
         <!-- Java堆内存设置 -->
         <property>
             <name>mapreduce.map.java.opts</name>

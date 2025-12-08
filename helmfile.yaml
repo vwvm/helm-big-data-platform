@@ -44,3 +44,8 @@ releases:
     namespace: default
     values:
       - values/hive-values.yaml
+
+  - name: test
+    chart: ./charts/test
+    version: 0.2.1
+    namespace: default
