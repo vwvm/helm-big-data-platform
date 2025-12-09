@@ -1,0 +1,22 @@
+# ==================== Spark Master Service ====================
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-master
+  namespace: default
+  labels:
+    app: spark
+    component: master
+spec:
+  type: NodePort
+  ports:
+    - port: 7077
+      targetPort: 7077
+      name: spark
+    - port: 8080
+      targetPort: 8080
+      name: webui
+      nodePort: 30081
+  selector:
+    app: spark
+    component: master

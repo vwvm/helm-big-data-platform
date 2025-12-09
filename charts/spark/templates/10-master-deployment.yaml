@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master
+  namespace: default
+  labels:
+    app: spark
+    component: master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark
+      component: master
+  template:
+    metadata:
+      labels:
+        app: spark
+        component: master
+    spec:
+      containers:
+        - name: spark-master
+          image: docker.1ms.run/spark:4.0.1-scala2.13-java17-python3-r-ubuntu
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 7077
+            - containerPort: 8080
+          # 使用 bash 执行多个命令
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              # 启动 Spark Master（后台运行）
+              /opt/spark/sbin/start-master.sh
+                     # 保持容器运行
+              tail -f /dev/null
+          env:
+            - name: SPARK_LOG_DIR
+              value: /opt/spark/logs
+            - name: SPARK_PID_DIR
+              value: /opt/spark/pids
+            # 建议添加，让 Worker 能正确连接
+            - name: SPARK_DRIVER_BIND_ADDRESS
+              value: spark-master
+            - name: SPARK_MASTER_PORT
+              value: "7077"
+            - name: SPARK_MASTER_WEBUI_PORT
+              value: "8080"
+          securityContext:
+            runAsUser: 0
+          resources:
+            requests:
+              cpu: "1000m"
+              memory: "2Gi"
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"
+          volumeMounts:
+            - name: spark-logs
+              mountPath: /opt/spark/logs
+            - name: spark-pids
+              mountPath: /opt/spark/pids
+      volumes:
+        - name: spark-logs
+          emptyDir: {}
+        - name: spark-pids
+          emptyDir: {}

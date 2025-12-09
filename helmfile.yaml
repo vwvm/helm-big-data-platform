@@ -41,6 +41,11 @@ releases:
     version: 0.2.1
     namespace: default
 
+  - name: spark
+    chart: ./charts/spark
+    version: 0.2.1
+    namespace: default
+
   - name: flink-kubernetes
     chart: ./charts/flink-kubernetes-operator
     version: 1.13-SNAPSHOT

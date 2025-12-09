@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spark
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: spark
+        component: worker
+    spec:
+      containers:
+        - name: spark-worker
+          image: docker.1ms.run/spark:4.0.1-scala2.13-java17-python3-r-ubuntu
+          ports:
+            - containerPort: 8081
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              # 简单启动 Worker，连接到 Master
+              /opt/spark/sbin/start-worker.sh spark://spark-master:7077
+              # 保持容器运行
+              tail -f /dev/null
+          env:
+            # 最重要的：Master 地址
+            - name: SPARK_MASTER
+              value: "spark://spark-master:7077"
+
+            # Worker 资源
+            - name: SPARK_WORKER_CORES
+              value: "2"
+            - name: SPARK_WORKER_MEMORY
+              value: "2g"
+
+            # 端口
+            - name: SPARK_WORKER_WEBUI_PORT
+              value: "8081"
+
+            # 日志
+            - name: SPARK_LOG_DIR
+              value: /opt/spark/logs
