@@ -47,6 +47,12 @@ data:
             <value>thrift://hive-metastore:9083</value>
         </property>
         
+        <property>
+            <name>spark.master</name>
+            <value>spark://spark-master:7077</value>
+            <description>Spark Master 地址</description>
+        </property>
+        
         <!-- Hive Server2 -->
         <property>
             <name>hive.server2.thrift.port</name>

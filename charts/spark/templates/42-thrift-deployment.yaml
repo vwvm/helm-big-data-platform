@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-thrift-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark
+      component: thrift-server
+  template:
+    metadata:
+      labels:
+        app: spark
+        component: thrift-server
+    spec:
+      containers:
+        - name: thrift-server
+          image: docker.1ms.run/spark:4.0.1-scala2.13-java17-python3-r-ubuntu
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              # 最简单的启动方式
+              /opt/spark/sbin/start-thriftserver.sh \
+                --master spark://spark-master:7077 \
+                --conf spark.driver.bindAddress=0.0.0.0 \
+                --conf spark.driver.memory=512m \
+                --conf spark.driver.cores=1 \
+                --conf spark.sql.catalogImplementation=hive \
+                --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore-service:9083
+              
+              # 保持容器运行
+              tail -f /dev/null
+          ports:
+            - containerPort: 10000
+              name: thrift
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          volumeMounts:
+            - name: nfs-jars
+              mountPath: /opt/spark/jars/user
+              subPath: lib
+            - name: hive-config
+              mountPath: /opt/spark/conf/hive-site.xml
+              subPath: hive-site.xml
+              readOnly: true
+      volumes:
+        - name: nfs-jars
+          persistentVolumeClaim:
+            claimName: nfs-pvc
+        - name: hive-config
+          configMap:
+            name: hive-config
+            optional: true

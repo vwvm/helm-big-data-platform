@@ -59,8 +59,14 @@ spec:
               mountPath: /opt/spark/logs
             - name: spark-pids
               mountPath: /opt/spark/pids
+            - name: spark-hive-config
+              mountPath: /opt/spark/conf/hive-site.xml
+              subPath: hive-site.xml
       volumes:
         - name: spark-logs
           emptyDir: {}
         - name: spark-pids
           emptyDir: {}
+        - name: spark-hive-config
+          configMap:
+            name: hive-config

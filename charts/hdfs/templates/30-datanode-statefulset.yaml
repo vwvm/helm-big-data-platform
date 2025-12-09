@@ -74,10 +74,8 @@ spec:
         - name: hadoop-config-volume
           configMap:
             name: hadoop-config
-        # 日志目录：使用emptyDir，或替换为PVC（生产环境推荐PVC）
         - name: hadoop-logs-dir
           emptyDir: { }
-  # PVC模板：关键是指定storageClassName，触发自动创建PV
   volumeClaimTemplates:
     - metadata:
         name: hadoop-data-dir

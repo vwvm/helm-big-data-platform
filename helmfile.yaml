@@ -28,13 +28,13 @@ releases:
       - values/hive-values.yaml
       - values/yarn-values.yaml
 
-  - name: yarn
-    chart: ./charts/yarn
-    version: 0.2.1
-    namespace: default
-    values:
-      - values/hive-values.yaml
-      - values/yarn-values.yaml
+#  - name: yarn
+#    chart: ./charts/yarn
+#    version: 0.2.1
+#    namespace: default
+#    values:
+#      - values/hive-values.yaml
+#      - values/yarn-values.yaml
 
   - name: mysql
     chart: ./charts/mysql
@@ -52,6 +52,11 @@ releases:
     namespace: default
     values:
       - values/flink-values.yaml
+
+#  - name: flink-sql-geteway
+#    chart: ./charts/flink-sql-geteway
+#    version: 1.13-SNAPSHOT
+#    namespace: default
 
   - name: hive
     chart: ./charts/hive

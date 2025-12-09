@@ -30,17 +30,14 @@ spec:
             # 最重要的：Master 地址
             - name: SPARK_MASTER
               value: "spark://spark-master:7077"
-
             # Worker 资源
             - name: SPARK_WORKER_CORES
-              value: "2"
+              value: "1"
             - name: SPARK_WORKER_MEMORY
-              value: "2g"
-
+              value: "999m"
             # 端口
             - name: SPARK_WORKER_WEBUI_PORT
               value: "8081"
-
             # 日志
             - name: SPARK_LOG_DIR
               value: /opt/spark/logs
