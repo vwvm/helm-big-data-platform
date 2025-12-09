@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: spark-worker
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: spark
@@ -34,10 +34,17 @@ spec:
             - name: SPARK_WORKER_CORES
               value: "1"
             - name: SPARK_WORKER_MEMORY
-              value: "999m"
+              value: "1024m"
             # 端口
             - name: SPARK_WORKER_WEBUI_PORT
               value: "8081"
             # 日志
             - name: SPARK_LOG_DIR
               value: /opt/spark/logs
+          resources:
+            requests:
+              memory: "1000Mi"
+              cpu: "1000m"
+            limits:
+              memory: "1500Mi"
+              cpu: "1200m"
