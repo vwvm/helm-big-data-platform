@@ -23,6 +23,8 @@ spec:
           ports:
             - containerPort: 9083
           env:
+            - name: HADOOP_CONF_DIR
+              value: /opt/hive/conf
             - name: SERVICE_NAME
               value: "metastore"
             - name: DB_DRIVER

@@ -38,6 +38,7 @@ spec:
               --conf spark.ui.enabled=false \
               --conf spark.sql.catalogImplementation=hive \
               --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore-service:9083
+              --conf spark.hadoop.fs.defaultFS=hdfs://hadoop-namenode:8020
               # 保持容器运行
               tail -f /dev/null
           ports:
@@ -60,6 +61,10 @@ spec:
               mountPath: /opt/spark/conf/hive-site.xml
               subPath: hive-site.xml
               readOnly: true
+            - name:  hadoop-config
+              mountPath: /opt/spark/conf/core-site.xml
+              subPath: core-site.xml
+              readOnly: true
       volumes:
         - name: nfs-jars
           persistentVolumeClaim:
@@ -67,4 +72,6 @@ spec:
         - name: hive-config
           configMap:
             name: hive-config
-            optional: true
+        - name: hadoop-config
+          configMap:
+            name: hadoop-config

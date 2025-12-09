@@ -8,6 +8,10 @@ data:
     <?xml version="1.0"?>
     <configuration>
         <property>
+            <name>fs.defaultFS</name>
+            <value>hdfs://hadoop-namenode:8020</value>
+        </property>
+        <property>
           <name>hive.execution.engine</name>
           <value>mr</value>
         </property>
