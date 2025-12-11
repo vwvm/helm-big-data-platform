@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: flink-nfs-pv  # PV名称
+spec:
+  capacity:
+    storage: 2Gi  # 存储容量
+  accessModes:
+    - ReadWriteMany  # 访问模式
+  nfs:
+    server: master
+    path: "/mnt/nfs_share/flink"
+  storageClassName: nfs-storage  # 新增存储类，用于PVC绑定
+  persistentVolumeReclaimPolicy: Retain  # 新增回收策略，避免数据丢失
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: flink-nfs-pvc
+  namespace: default  # 根据实际命名空间调整
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-storage
+  resources:
+    requests:
+      storage: 2Gi

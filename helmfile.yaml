@@ -50,14 +50,14 @@ releases:
   - name: flink-kubernetes
     chart: ./charts/flink-kubernetes-operator
     version: 1.13-SNAPSHOT
-    installed: false
+    installed: true
     namespace: default
     values:
       - values/flink-values.yaml
 
   - name: flink-sql-geteway
     chart: ./charts/flink-sql-geteway
-    installed: false
+    installed: true
     version: 1.13-SNAPSHOT
     namespace: default
 

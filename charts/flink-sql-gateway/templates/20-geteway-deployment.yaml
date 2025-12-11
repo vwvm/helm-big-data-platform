@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sql-gateway
-          image: docker.1ms.run/flink:1.17.2-scala_2.12-java11
+          image: docker.1ms.run/flink:1.13.0
           command: ["./bin/sql-gateway.sh"]
           args: ["start"]
           ports:
@@ -23,25 +23,13 @@ spec:
             - name: hive-config
               mountPath: /opt/flink/conf/hive-site.xml
               subPath: hive-site.xml
-            - name: libs
+            - name: flink-nfs-pvc
               mountPath: /opt/flink/lib/
+              subPath: flink/
       volumes:
         - name: hive-config
           configMap:
             name: hive-config
-        - name: libs
+        - name: flink-nfs-pvc
           persistentVolumeClaim:
             claimName: flink-nfs-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: flink-sql-gateway
-spec:
-  type: NodePort
-  ports:
-    - port: 8083
-      targetPort: 8083
-      nodePort: 30083
-  selector:
-    app: flink-sql-gateway
