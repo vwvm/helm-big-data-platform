@@ -4,7 +4,7 @@ metadata:
   name: nfs-pv  # PV名称
 spec:
   capacity:
-    storage: 25Gi  # 存储容量
+    storage: 20Gi  # 存储容量
   accessModes:
     - ReadWriteMany  # 访问模式
   nfs:
@@ -22,6 +22,6 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 25Gi
+      storage: 20Gi
   volumeName: nfs-pv
   storageClassName: nfs-storage

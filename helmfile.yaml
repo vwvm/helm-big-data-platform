@@ -28,13 +28,14 @@ releases:
       - values/hive-values.yaml
       - values/yarn-values.yaml
 
-#  - name: yarn
-#    chart: ./charts/yarn
-#    version: 0.2.1
-#    namespace: default
-#    values:
-#      - values/hive-values.yaml
-#      - values/yarn-values.yaml
+  - name: yarn
+    chart: ./charts/yarn
+    version: 0.2.1
+    namespace: default
+    installed: false
+    values:
+      - values/hive-values.yaml
+      - values/yarn-values.yaml
 
   - name: mysql
     chart: ./charts/mysql
@@ -49,14 +50,16 @@ releases:
   - name: flink-kubernetes
     chart: ./charts/flink-kubernetes-operator
     version: 1.13-SNAPSHOT
+    installed: false
     namespace: default
     values:
       - values/flink-values.yaml
 
-#  - name: flink-sql-geteway
-#    chart: ./charts/flink-sql-geteway
-#    version: 1.13-SNAPSHOT
-#    namespace: default
+  - name: flink-sql-geteway
+    chart: ./charts/flink-sql-geteway
+    installed: false
+    version: 1.13-SNAPSHOT
+    namespace: default
 
   - name: hive
     chart: ./charts/hive

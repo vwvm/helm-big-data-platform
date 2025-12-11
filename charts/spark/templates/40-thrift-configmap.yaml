@@ -7,6 +7,9 @@ metadata:
     component: thrift-server-config
 data:
   # ============ 1. Spark 环境配置文件 (spark-env.sh) ============
+  spark-defaults.conf: |
+    spark.driver.extraClassPath  $SPARK_HOME/jars/user/hadoop-lzo-0.4.20.jar
+    spark.executor.extraClassPath  $SPARK_HOME/jars/user/hadoop-lzo-0.4.20.jar
   spark-env.sh: |
     #!/bin/bash
     # Spark Environment Configuration for Thrift Server

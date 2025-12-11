@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: namenode
-          image: docker.1ms.run/apache/hadoop:3
+          image: docker.1ms.run/apache/hadoop:3.4.1
           # 简化命令：只在第一次启动时格式化
           command: ["/bin/sh", "-c"]
           args:
@@ -74,7 +74,13 @@ spec:
             - name: hadoop-config-volume
               mountPath: /opt/hadoop/etc/hadoop/hdfs-site.xml
               subPath: hdfs-site.xml
+            - name: nfs-pvc
+              mountPath: /opt/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20.jar
+              subPath: lib/hadoop-lzo-0.4.20.jar
       volumes:
         - name: hadoop-config-volume
           configMap:
             name: hadoop-config
+        - name: nfs-pvc
+          persistentVolumeClaim:
+            claimName: nfs-pvc

@@ -19,11 +19,24 @@ data:
             <name>hadoop.tmp.dir</name>
             <value>/tmp/hadoop-root</value>
         </property>
-        <!-- 配置 Web UI 访问 HDFS 时使用的用户：hdfs（超级用户） -->
         <property>
             <name>hadoop.http.staticuser.user</name>
             <value>root</value>
-            <description>Web UI 匿名访问时的默认用户，设置为 hdfs 超级用户</description>
+        </property>
+        <property>
+            <name>io.compression.codecs</name>
+            <value>
+            org.apache.hadoop.io.compress.GzipCodec,
+            org.apache.hadoop.io.compress.DefaultCodec,
+            org.apache.hadoop.io.compress.BZip2Codec,
+            org.apache.hadoop.io.compress.SnappyCodec,
+            com.hadoop.compression.lzo.LzoCodec,
+            com.hadoop.compression.lzo.LzopCodec
+            </value>
+        </property>
+        <property>
+            <name>io.compression.codec.lzo.class</name>
+            <value>com.hadoop.compression.lzo.LzoCodec</value>
         </property>
     </configuration>
 
@@ -49,25 +62,25 @@ data:
         </property>
         
         <property>
-          <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
-          <value>false</value>
-        </property>    
+            <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+            <value>false</value>
+        </property>
         <property>
-          <name>dfs.client.use.datanode.hostname</name>
-          <value>false</value>
-        </property>    
+            <name>dfs.client.use.datanode.hostname</name>
+            <value>false</value>
+        </property>
         <property>
-          <name>dfs.datanode.use.datanode.hostname</name>
-          <value>false</value>
+            <name>dfs.datanode.use.datanode.hostname</name>
+            <value>false</value>
         </property>
         
         <property>
-          <name>dfs.namenode.rpc-bind-host</name>
-          <value>0.0.0.0</value>
+            <name>dfs.namenode.rpc-bind-host</name>
+            <value>0.0.0.0</value>
         </property>
         <property>
-          <name>dfs.namenode.http-bind-host</name>
-          <value>0.0.0.0</value>
+            <name>dfs.namenode.http-bind-host</name>
+            <value>0.0.0.0</value>
         </property>
     </configuration>
 
@@ -110,12 +123,12 @@ data:
         <!-- 关键：设置调度器最大分配 -->
         <property>
             <name>yarn.scheduler.maximum-allocation-mb</name>
-            <value>{{ .Values.yarn.scheduler.maximumAllocationMb }}</value>  
+            <value>{{ .Values.yarn.scheduler.maximumAllocationMb }}</value>
         </property>
         <property>
             <name>yarn.scheduler.maximum-allocation-vcores</name>
             <value>{{ .Values.yarn.scheduler.maximumAllocationVcores }}</value>
-        </property>    
+        </property>
         <!-- 最小分配 -->
         <property>
             <name>yarn.scheduler.minimum-allocation-mb</name>
@@ -152,8 +165,8 @@ data:
             <value>{{ .Values.yarn.mapreduce.map.memory.mb }}</value>
         </property>
         <property>
-          <name>mapreduce.reduce.memory.mb</name>
-          <value>{{ .Values.yarn.mapreduce.reduce.memory.mb }}</value>
+            <name>mapreduce.reduce.memory.mb</name>
+            <value>{{ .Values.yarn.mapreduce.reduce.memory.mb }}</value>
         </property>
         <property>
             <name>yarn.app.mapreduce.am.resource.mb</name>
@@ -162,19 +175,19 @@ data:
         
         <!-- 覆盖AM的JVM参数 -->
         <property>
-          <name>yarn.app.mapreduce.am.command-opts</name>
-          <value>-Xmx630m</value>
+            <name>yarn.app.mapreduce.am.command-opts</name>
+            <value>-Xmx630m</value>
         </property>
         
         <!-- 覆盖Map任务的JVM参数 -->
         <property>
-          <name>mapreduce.map.java.opts</name>
-          <value>-Xmx630m</value>
+            <name>mapreduce.map.java.opts</name>
+            <value>-Xmx630m</value>
         </property>
         
         <!-- 覆盖Reduce任务的JVM参数 -->
         <property>
-          <name>mapreduce.reduce.java.opts</name>
-          <value>-Xmx630m</value>
-        </property>   
+            <name>mapreduce.reduce.java.opts</name>
+            <value>-Xmx630m</value>
+        </property>
     </configuration>

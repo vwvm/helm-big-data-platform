@@ -18,7 +18,7 @@ spec:
       containers:
         - name: thrift-server
           image: docker.1ms.run/spark:4.0.1-scala2.13-java17-python3-r-ubuntu
-          command: ["/bin/bash", "-c"]
+          command: [ "/bin/bash", "-c" ]
           args:
             - |
               # 最简单的启动方式
@@ -26,18 +26,21 @@ spec:
               --master spark://spark-master:7077 \
               --conf spark.driver.memory=512m \
               --conf spark.driver.cores=1 \
-              --conf executor-memory=1000m \
-              --conf total-executor-cores=2 \
+              --conf spark.executor-memory=1000m \
+              --conf spark.total-executor-cores=2 \
               --conf spark.driver.port=30000 \
               --conf spark.blockManager.port=30001 \
               --conf spark.driver.bindAddress=0.0.0.0 \
+              --jars /opt/spark/jars/user/hadoop-lzo-0.4.20.jar \
+              --conf spark.driver.extraClassPath=/opt/spark/jars/user/hadoop-lzo-0.4.20.jar \
+              --conf spark.executor.extraClassPath=/opt/spark/jars/user/hadoop-lzo-0.4.20.jar \
               --conf spark.authenticate=false \
               --conf spark.authenticate.enableSaslEncryption=false \
               --conf spark.network.crypto.enabled=false \
               --conf spark.ssl.enabled=false \
               --conf spark.ui.enabled=false \
               --conf spark.sql.catalogImplementation=hive \
-              --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore-service:9083
+              --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore-service:9083 \
               --conf spark.hadoop.fs.defaultFS=hdfs://hadoop-namenode:8020
               # 保持容器运行
               tail -f /dev/null
@@ -61,10 +64,13 @@ spec:
               mountPath: /opt/spark/conf/hive-site.xml
               subPath: hive-site.xml
               readOnly: true
-            - name:  hadoop-config
+            - name: hadoop-config
               mountPath: /opt/spark/conf/core-site.xml
               subPath: core-site.xml
               readOnly: true
+            - name: spark-thrift-config
+              mountPath: /opt/spark/conf/spark-defaults.conf
+              subPath: spark-defaults.conf
       volumes:
         - name: nfs-jars
           persistentVolumeClaim:
@@ -75,3 +81,6 @@ spec:
         - name: hadoop-config
           configMap:
             name: hadoop-config
+        - name: spark-thrift-config
+          configMap:
+            name: spark-thrift-config

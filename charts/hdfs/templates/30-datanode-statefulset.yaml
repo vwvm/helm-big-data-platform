@@ -39,7 +39,7 @@ spec:
               mountPath: /hadoop/logs
       containers:
         - name: datanode
-          image: docker.1ms.run/apache/hadoop:3
+          image: docker.1ms.run/apache/hadoop:3.4.1
           command: [ "hdfs", "datanode" ]
           ports:
             - containerPort: 9864
@@ -69,13 +69,19 @@ spec:
               mountPath: /hadoop/logs
             # 覆盖hadoop.tmp.dir，指向持久化目录
             - name: hadoop-data-dir
-              mountPath: /tmp/hadoop-root  # 兼容Hadoop默认临时目录，实际数据在/hadoop/data
+              mountPath: /tmp/hadoop-root
+            - name: nfs-pvc
+              mountPath: /opt/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20.jar
+              subPath: lib/hadoop-lzo-0.4.20.jar
       volumes:
         - name: hadoop-config-volume
           configMap:
             name: hadoop-config
         - name: hadoop-logs-dir
           emptyDir: { }
+        - name: nfs-pvc
+          persistentVolumeClaim:
+            claimName: nfs-pvc
   volumeClaimTemplates:
     - metadata:
         name: hadoop-data-dir
