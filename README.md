@@ -43,5 +43,5 @@ One-click deployment
 多使用下面的命令查看问题
 ```shell
 kubectl describe
-kubectl logs
+kubectl logs xxx --previous
 ```
