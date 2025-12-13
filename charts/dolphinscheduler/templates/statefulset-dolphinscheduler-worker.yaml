@@ -188,7 +188,14 @@ spec:
             {{- if .Values.worker.extraVolumeMounts }}
             {{- toYaml .Values.worker.extraVolumeMounts | nindent 12 }}
             {{- end }}
+            - name: mysql-driver
+              mountPath: /opt/dolphinscheduler/libs/mysql-connector-java-8.0.16.jar
+              subPath: mysql-connector-java-8.0.16.jar
+              readOnly: true
       volumes:
+        - name: mysql-driver
+          persistentVolumeClaim:
+            claimName: ht-nfs-pvc
         {{- if .Values.worker.persistentVolumeClaim.enabled }}
         - name: {{ include "dolphinscheduler.fullname" . }}-worker-data
           {{- if .Values.worker.persistentVolumeClaim.dataPersistentVolume.enabled }}

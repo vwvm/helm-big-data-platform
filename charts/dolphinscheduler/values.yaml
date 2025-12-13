@@ -1,4 +1,5 @@
 timezone: Asia/Shanghai
+
 # -- Used to detect whether dolphinscheduler dependent services such as database are ready
 initImage:
   # -- Image pull policy. Options: Always, Never, IfNotPresent
@@ -990,11 +991,11 @@ api:
     storage: "20Gi"
   service:
     # -- type determines how the Service is exposed. Defaults to ClusterIP. Valid options are ExternalName, ClusterIP, NodePort, and LoadBalancer
-    type: "ClusterIP"
+    type: "NodePort"
     # --  clusterIP is the IP address of the service and is usually assigned randomly by the master
     clusterIP: ""
     # -- nodePort is the port on each node on which this api service is exposed when type=NodePort
-    nodePort: ""
+    nodePort: "30090"
     # -- pythonNodePort is the port on each node on which this python api service is exposed when type=NodePort
     pythonNodePort: ""
     # -- externalIPs is a list of IP addresses for which nodes in the cluster will also accept traffic for this service

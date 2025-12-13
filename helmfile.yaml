@@ -50,14 +50,14 @@ releases:
   - name: flink-kubernetes
     chart: ./charts/flink-kubernetes-operator
     version: 1.13-SNAPSHOT
-    installed: true
+    installed: false
     namespace: default
     values:
       - values/flink-values.yaml
 
   - name: flink-sql-geteway
     chart: ./charts/flink-sql-geteway
-    installed: true
+    installed: false
     version: 1.13-SNAPSHOT
     namespace: default
 
@@ -69,12 +69,12 @@ releases:
       - values/hive-values.yaml
       - values/yarn-values.yaml
 
-  - name: dolphinscheduler
-    chart: ./charts/dolphinscheduler
-    version: 0.2.1
-    namespace: default
-    values:
-      - values/dolphinscheduler-values.yaml
+#  - name: dolphinscheduler
+#    chart: ./charts/dolphinscheduler
+#    version: 0.2.1
+#    namespace: default
+#    values:
+#      - values/dolphinscheduler-values.yaml
 
   - name: test
     chart: ./charts/test

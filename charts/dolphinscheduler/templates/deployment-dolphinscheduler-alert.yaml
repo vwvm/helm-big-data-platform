@@ -168,7 +168,14 @@ spec:
               mountPath: /opt/dolphinscheduler/conf/application.yaml
               subPath: application.yaml
             {{- end }}
+            - name: mysql-driver
+              mountPath: /opt/dolphinscheduler/libs/mysql-connector-java-8.0.16.jar
+              subPath: mysql-connector-java-8.0.16.jar
+              readOnly: true
       volumes:
+        - name: mysql-driver
+          persistentVolumeClaim:
+            claimName: ht-nfs-pvc
         - name: {{ include "dolphinscheduler.fullname" . }}-alert
           {{- if .Values.alert.persistentVolumeClaim.enabled }}
           persistentVolumeClaim:
