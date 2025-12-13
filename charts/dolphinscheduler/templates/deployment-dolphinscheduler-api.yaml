@@ -178,14 +178,16 @@ spec:
             {{- include "dolphinscheduler.fsFileResource.volumeMount" . | nindent 12 }}
             {{- include "dolphinscheduler.ldap.ssl.volumeMount" . | nindent 12 }}
             {{- include "dolphinscheduler.etcd.ssl.volumeMount" . | nindent 12 }}
-            - name: mysql-driver
-              mountPath: /opt/dolphinscheduler/libs/mysql-connector-java-8.0.16.jar
-              subPath: mysql-connector-java-8.0.16.jar
+            {{- range .Values.databaseDrivers.files }}
+            - name: {{ $.Values.databaseDrivers.volume.name }}
+              mountPath: /opt/dolphinscheduler/libs/{{ .name }}
+              subPath: {{ .name }}
               readOnly: true
+            {{- end }}
       volumes:
-        - name: mysql-driver
+        - name: {{ .Values.databaseDrivers.volume.name }}
           persistentVolumeClaim:
-            claimName: ht-nfs-pvc
+            claimName: {{ .Values.databaseDrivers.volume.persistentVolumeClaim.claimName }}
         - name: {{ include "dolphinscheduler.fullname" . }}-api
           {{- if .Values.api.persistentVolumeClaim.enabled }}
           persistentVolumeClaim:

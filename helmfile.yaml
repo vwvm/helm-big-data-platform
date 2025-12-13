@@ -10,8 +10,11 @@ environments:
   prod:
     values:
       - environments/prod.yaml
-
 ---
+repositories:
+  - name: bitnami-archive
+    url: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    
 releases:
   - name: configmap
     chart: ./charts/configmap
@@ -69,12 +72,10 @@ releases:
       - values/hive-values.yaml
       - values/yarn-values.yaml
 
-#  - name: dolphinscheduler
-#    chart: ./charts/dolphinscheduler
-#    version: 0.2.1
-#    namespace: default
-#    values:
-#      - values/dolphinscheduler-values.yaml
+  - name: dolphinscheduler
+    chart: ./charts/dolphinscheduler
+    version: 0.2.1
+    namespace: default
 
   - name: test
     chart: ./charts/test

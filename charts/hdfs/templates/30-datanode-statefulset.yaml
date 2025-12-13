@@ -7,7 +7,7 @@ metadata:
     component: datanode
 spec:
   serviceName: "hadoop-datanode"
-  replicas: {{ .Values.replicas.hdfs.datanode }}
+  replicas: {{ .Values.datanode.replicas }}
   selector:
     matchLabels:
       app: hadoop
