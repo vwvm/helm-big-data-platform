@@ -1,7 +1,7 @@
 # 节点的数量
 replicas:
   namenode: 1
-  datanode: 2
+  datanode: 3
 
 port:
   web:
