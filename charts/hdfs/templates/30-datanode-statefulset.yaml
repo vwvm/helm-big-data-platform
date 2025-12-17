@@ -31,6 +31,7 @@ spec:
             - |
               mkdir -p /hadoop/data/dfs/data /hadoop/logs
               chmod -R 777 /hadoop/data /hadoop/logs
+              # 初始化时清理数据，确保每次启动都是干净的
               rm -rf /hadoop/data/dfs/data/*
           volumeMounts:
             - name: hadoop-data-dir
@@ -61,15 +62,11 @@ spec:
             - name: hadoop-config-volume
               mountPath: /opt/hadoop/etc/hadoop/hdfs-site.xml
               subPath: hdfs-site.xml
-            # 挂载持久化数据目录（替换/tmp）
+            # 使用临时存储（Pod删除时数据丢失）
             - name: hadoop-data-dir
               mountPath: /hadoop/data
-            # 挂载日志目录，方便排查问题
             - name: hadoop-logs-dir
               mountPath: /hadoop/logs
-            # 覆盖hadoop.tmp.dir，指向持久化目录
-            - name: hadoop-data-dir
-              mountPath: /tmp/hadoop-root
             - name: nfs-pvc
               mountPath: /opt/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20.jar
               subPath: lib/hadoop-lzo-0.4.20.jar
@@ -77,17 +74,10 @@ spec:
         - name: hadoop-config-volume
           configMap:
             name: hadoop-config
+        - name: hadoop-data-dir
+          emptyDir: {}
         - name: hadoop-logs-dir
-          emptyDir: { }
+          emptyDir: {}
         - name: nfs-pvc
           persistentVolumeClaim:
             claimName: nfs-pvc
-  volumeClaimTemplates:
-    - metadata:
-        name: hadoop-data-dir
-      spec:
-        storageClassName: local-path  # 指定StorageClass，自动创建PV
-        accessModes: [ "ReadWriteOnce" ]  # 只能被一个Pod挂载
-        resources:
-          requests:
-            storage: 5Gi  # 每个DataNode需要5Gi存储

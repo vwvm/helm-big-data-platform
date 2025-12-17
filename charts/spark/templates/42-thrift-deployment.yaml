@@ -41,8 +41,7 @@ spec:
               --conf spark.ui.enabled=false \
               --conf spark.sql.catalogImplementation=hive \
               --conf spark.hadoop.hive.metastore.uris=thrift://hive-metastore-service:9083 \
-              --conf spark.hadoop.fs.defaultFS=hdfs://hadoop-namenode:8020 \
-              --hiveconf hive.server2.thrift.port=10000 \
+              --conf spark.hadoop.fs.defaultFS=hdfs://hadoop-namenode:8020 \              --hiveconf hive.server2.thrift.port=10000 \
               --hiveconf hive.server2.thrift.bind.host=0.0.0.0 \
               --hiveconf hive.server2.authentication=NOSASL \
               --hiveconf hive.server2.enable.doAs=false
