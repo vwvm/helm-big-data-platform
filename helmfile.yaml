@@ -3,6 +3,7 @@ helmDefaults:
   timeout: 600
   wait: true
   verify: false
+  skipDeps: true
 environments:
   dev:
     values:
@@ -76,6 +77,8 @@ releases:
     chart: ./charts/dolphinscheduler
     version: 0.2.1
     namespace: default
+    values:
+      - values/dolphinscheduler-values.yaml
 
   - name: test
     chart: ./charts/test

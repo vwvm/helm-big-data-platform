@@ -2,7 +2,7 @@ databaseDrivers:
   # 在这里动态管理文件列表，增删文件只需改这个列表
   files:
     - name: mysql-connector-java-8.0.16.jar
-    - name: ojdbc6.jar
+    - name: ojdbc8-19.3.0.0.jar
     # 添加新驱动
     #    - name: hive-jdbc-3.1.2.jar
     # 删除驱动：直接从这里移除对应行即可

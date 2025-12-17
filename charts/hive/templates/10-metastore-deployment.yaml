@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: metastore
-          image: docker.1ms.run/apache/hive:3.1.3
+          image: "{{ .Values.metastore.containers.image.registry }}/{{ .Values.metastore.containers.image.repository }}:{{ .Values.metastore.containers.image.tag }}"
           ports:
             - containerPort: 9083
           env:

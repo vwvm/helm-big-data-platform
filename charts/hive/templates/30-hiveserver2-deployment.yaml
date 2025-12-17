@@ -23,7 +23,7 @@ spec:
         fsGroup: 0
       containers:
         - name: hiveserver2
-          image: docker.1ms.run/apache/hive:3.1.3
+          image: "{{ .Values.metastore.containers.image.registry }}/{{ .Values.metastore.containers.image.repository }}:{{ .Values.metastore.containers.image.tag }}"
           env:
             - name: SERVICE_NAME
               value: hiveserver2

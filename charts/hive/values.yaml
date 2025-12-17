@@ -13,62 +13,10 @@ port:
     nodemanager: 30089
   server:
     mysql: 30006
-
-coreSite:
-  fs:
-    default:
-      name: "hdfs://hadoop-namenode"
-    defaultFS: "hdfs://hadoop-namenode"
-
-hdfsSite:
-  dfs:
-    namenode:
-      rpcAddress: "0.0.0.0:8020"
-      serverAddress: "hadoop-namenode:8020"
-    replication: 1
-
-mapredSite:
-  mapreduce:
-    framework:
-      name: yarn
-    yarn:
-      app:
-        mapreduce:
-          am:
-            env: HADOOP_MAPRED_HOME=$HADOOP_HOME
-    map:
-      env: HADOOP_MAPRED_HOME=$HADOOP_HOME
-    reduce:
-      env: HADOOP_MAPRED_HOME=$HADOOP_HOME
-
-yarnSite:
-  yarn:
-    resourcemanager:
-      hostname: resourcemanager
-    nodemanager:
-      pmemCheckEnabled: false
-      deleteDebugDelaySec: 600
-      vmemCheckEnabled: false
-      auxServices: mapreduce_shuffle
-
-capacityScheduler:
-  yarn:
-    scheduler:
-      capacity:
-        maximumApplications: 10000
-        maximumAmResourcePercent: 0.1
-        resourceCalculator: org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator
-        root:
-          queues: default
-          default:
-            capacity: 100
-            userLimitFactor: 1
-            maximumCapacity: 100
-            state: RUNNING
-            acl:
-              submitApplications: "*"
-              administerQueue: "*"
-        nodeLocalityDelay: 40
-        queueMappings: ""
-        queueMappingsOverride:
-          enable: false
+metastore:
+  containers:
+    image:
+      registry: docker.1ms.run
+      repository: apache/hive
+      tag: 4.1.0
+      pullPolicy: IfNotPresent
