@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-connect-server
+  labels:
+    app: spark
+    component: connect-server
+spec:
+  type: NodePort
+  selector:
+    app: spark
+    component: connect-server
+  ports:
+    - port: 15002
+      targetPort: 15002
+      name: connect
+      nodePort: 30085

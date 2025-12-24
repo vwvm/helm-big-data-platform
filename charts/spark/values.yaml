@@ -7,4 +7,6 @@ master:
 worker:
   replicas: 3
 thrift:
+  replicas: 0
+connect:
   replicas: 1

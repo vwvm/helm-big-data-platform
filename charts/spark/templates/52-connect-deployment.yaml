@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spark-connect-server
+spec:
+  serviceName: spark-connect-server
+  replicas: {{ .Values.connect.replicas }}
+  selector:
+    matchLabels:
+      app: spark
+      component: connect-server
+  template:
+    metadata:
+      labels:
+        app: spark
+        component: connect-server
+    spec:
+      containers:
+        - name: connect-server
+          image: docker.1ms.run/spark:4.0.1-scala2.13-java17-python3-r-ubuntu
+          command: [ "/bin/bash", "-c" ]
+          args:
+            - |
+              # 最简单的启动方式
+              /opt/spark/sbin/start-connect-server.sh
+              # 保持容器运行
+              tail -f /dev/null
+          ports:
+            - containerPort: 15002
+          resources:
+            requests:
+              memory: "1000Mi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          volumeMounts:
+            - name: nfs-jars
+              mountPath: /opt/spark/jars/user
+              subPath: lib
+            - name: hive-config
+              mountPath: /opt/spark/conf/hive-site.xml
+              subPath: hive-site.xml
+              readOnly: true
+            - name: hadoop-config
+              mountPath: /opt/spark/conf/core-site.xml
+              subPath: core-site.xml
+              readOnly: true
+            - name: spark-thrift-config
+              mountPath: /opt/spark/conf/spark-env.sh
+              subPath: spark-env.sh
+            - name: spark-thrift-config
+              mountPath: /opt/spark/conf/spark-defaults.conf
+              subPath: spark-defaults.conf
+      volumes:
+        - name: nfs-jars
+          persistentVolumeClaim:
+            claimName: nfs-pvc
+        - name: hive-config
+          configMap:
+            name: hive-config
+        - name: hadoop-config
+          configMap:
+            name: hadoop-config
+        - name: spark-thrift-config
+          configMap:
+            name: spark-thrift-config
