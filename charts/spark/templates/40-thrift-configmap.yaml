@@ -8,34 +8,31 @@ metadata:
 data:
   # ============ 1. Spark 环境配置文件 (spark-env.sh) ============
   spark-defaults.conf: |
-    spark.driver.extraClassPath  $SPARK_HOME/jars/user/hadoop-lzo-0.4.20.jar
-    spark.executor.extraClassPath  $SPARK_HOME/jars/user/hadoop-lzo-0.4.20.jar
+    spark.master                   spark://spark-master:7077
+    
+    spark.sql.catalogImplementation hive
+    spark.hadoop.hive.metastore.uris thrift://hive-metastore-service:9083
+    spark.hadoop.fs.defaultFS      hdfs://hadoop-namenode:8020
+
   spark-env.sh: |
-    #!/bin/bash
-    # Spark Environment Configuration for Thrift Server
+    export SPARK_DRIVER_MEMORY="512m"
+    export SPARK_DRIVER_CORES="1"
+    export SPARK_DRIVER_PORT="30000"
+    export SPARK_DRIVER_BIND_ADDRESS="0.0.0.0"
     
-    # Java Configuration
-    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+    # 3. Executor 配置
+    export SPARK_EXECUTOR_MEMORY="1000m"
+    export SPARK_TOTAL_EXECUTOR_CORES="2"
     
-    # Thrift Server specific
-    export SPARK_DRIVER_MEMORY=512m
-    export SPARK_EXECUTOR_MEMORY=1000m
-    export SPARK_WORKER_CORES=2
+    # 4. 网络和安全配置
+    export SPARK_BLOCKMANAGER_PORT="30001"
+    export SPARK_AUTHENTICATE="false"
+    export SPARK_AUTHENTICATE_ENABLESASLENCRYPTION="false"
+    export SPARK_NETWORK_CRYPTO_ENABLED="false"
+    export SPARK_SSL_ENABLED="false"
     
-    # HDFS Configuration - 关键配置！
-    export SPARK_HADOOP_FS_DEFAULTFS=hdfs://hadoop-namenode:8020
-    
-    # Hive Metastore
-    export SPARK_HIVE_METASTORE_URIS=thrift://hive-metastore-service:9083
-    
-    # Logging
-    export SPARK_LOG_DIR=/opt/spark/logs
-    mkdir -p ${SPARK_LOG_DIR}
-    
-    # Hadoop config if exists
-    if [ -d "/etc/hadoop/conf" ]; then
-      export HADOOP_CONF_DIR=/etc/hadoop/conf
-    fi
+    # 5. UI 配置
+    export SPARK_UI_ENABLED="false"
 
   # ============ 2. 启动脚本 (无sleep，直接前台运行) ============
   start-thrift-server.sh: |
