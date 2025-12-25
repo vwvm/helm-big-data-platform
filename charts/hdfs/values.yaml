@@ -62,3 +62,15 @@ capacityScheduler:
         queueMappings: ""
         queueMappingsOverride:
           enable: false
+
+yarn:
+  mapreduce:
+    am:
+      resource:
+        mb: 1000m
+    map:
+      memory:
+        mb: 1000m
+    reduce:
+      memory:
+        mb: 1000m
