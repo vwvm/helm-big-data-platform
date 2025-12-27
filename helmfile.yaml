@@ -40,6 +40,7 @@ releases:
     namespace: default
 
   - name: spark
+    installed: false
     chart: ./charts/spark
     version: 0.2.1
     namespace: default
@@ -67,10 +68,10 @@ releases:
       - values/yarn-values.yaml
 
   - name: dolphinscheduler
+    installed: true
     chart: ./charts/dolphinscheduler
     version: 0.2.1
     namespace: default
-    installed: false
     values:
       - values/dolphinscheduler-values.yaml
 
