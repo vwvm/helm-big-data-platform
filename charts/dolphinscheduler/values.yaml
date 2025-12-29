@@ -28,7 +28,7 @@ image:
   tools: dolphinscheduler-tools
 datasource:
   # -- The profile of datasource
-  profile: mysql
+  profile: postgresql
 
 postgresql:
   # -- If not exists external PostgreSQL, by default, the DolphinScheduler will use a internal PostgreSQL
@@ -75,7 +75,7 @@ mysql:
       # -- Set mysql.primary.persistence.enabled to true to mount a new volume for internal MySQL
       enabled: false
       # -- `PersistentVolumeClaim` size
-      size: "20Gi"
+      size: "10Gi"
       # -- MySQL data persistent volume storage class. If set to "-", storageClassName: "", which disables dynamic provisioning
       storageClass: "-"
   image:
@@ -105,13 +105,13 @@ minio:
 externalDatabase:
   # -- If exists external database, and set postgresql.enable value to false.
   # external database will be used, otherwise Dolphinscheduler's internal database will be used.
-  enabled: true
+  enabled: false
   # -- The type of external database, supported types: postgresql, mysql
-  type: "mysql"
+  type: "postgresql"
   # -- The host of external database
-  host: "mysql-service"
+  host: "localhost"
   # -- The port of external database
-  port: "3306"
+  port: "5432"
   # -- The username of external database
   username: "root"
   # -- The password of external database
@@ -119,9 +119,10 @@ externalDatabase:
   # -- The database of external database
   database: "dolphinscheduler"
   # -- The params of external database
-  params: ""
+  params: "characterEncoding=utf8"
   # -- The driverClassName of external database
-  driverClassName: "com.mysql.cj.jdbc.Driver"
+  driverClassName: "org.postgresql.Driver"
+
 
 zookeeper:
   # -- If not exists external registry, the zookeeper registry will be used by default.
