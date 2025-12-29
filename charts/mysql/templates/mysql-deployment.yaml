@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: docker.1ms.run/mysql:5.7
+          image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 3306
           env:

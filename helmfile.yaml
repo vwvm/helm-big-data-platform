@@ -21,9 +21,6 @@ releases:
     chart: ./charts/hdfs
     version: 0.2.1
     namespace: default
-    values:
-      - values/hive-values.yaml
-      - values/yarn-values.yaml
 
   - name: yarn
     chart: ./charts/yarn
@@ -36,6 +33,11 @@ releases:
 
   - name: mysql
     chart: ./charts/mysql
+    version: 0.2.1
+    namespace: default
+
+  - name: oracle
+    chart: ./charts/oracle
     version: 0.2.1
     namespace: default
 

@@ -47,11 +47,6 @@ spec:
             {{- toYaml .Values.env | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.persistence.enabled }}
-          volumeMounts:
-            - name: oracle-data
-              mountPath: {{ .Values.persistence.mountPath }}
-          {{- end }}
           {{- range .Values.volumeMounts }}
           - name: {{ .name }}
             mountPath: {{ .mountPath }}
@@ -73,12 +68,6 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 30
-      {{- if .Values.persistence.enabled }}
-      volumes:
-        - name: oracle-data
-          persistentVolumeClaim:
-            claimName: {{ include "oracle23c.fullname" . | trim }}-pvc
-      {{- end }}
       {{- range .Values.volumes }}
       - name: {{ .name }}
       {{- if .configMap }}

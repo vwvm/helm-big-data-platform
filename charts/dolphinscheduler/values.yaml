@@ -28,7 +28,7 @@ image:
   tools: dolphinscheduler-tools
 datasource:
   # -- The profile of datasource
-  profile: postgresql
+  profile: mysql
 
 postgresql:
   # -- If not exists external PostgreSQL, by default, the DolphinScheduler will use a internal PostgreSQL
@@ -37,6 +37,7 @@ postgresql:
   postgresqlUsername: "root"
   # -- The password for internal PostgreSQL
   postgresqlPassword: "root"
+  postgresPassword: 'root'
   # -- The database for internal PostgreSQL
   postgresqlDatabase: "dolphinscheduler"
   # -- The driverClassName for internal PostgreSQL
@@ -62,9 +63,9 @@ mysql:
   driverClassName: "com.mysql.cj.jdbc.Driver"
   auth:
     # -- mysql username
-    username: "ds"
+    username: "root"
     # -- mysql password
-    password: "ds"
+    password: "root"
     # -- mysql database
     database: "dolphinscheduler"
     # -- mysql params
@@ -104,13 +105,13 @@ minio:
 externalDatabase:
   # -- If exists external database, and set postgresql.enable value to false.
   # external database will be used, otherwise Dolphinscheduler's internal database will be used.
-  enabled: false
+  enabled: true
   # -- The type of external database, supported types: postgresql, mysql
-  type: "postgresql"
+  type: "mysql"
   # -- The host of external database
-  host: "localhost"
+  host: "mysql-service"
   # -- The port of external database
-  port: "5432"
+  port: "3306"
   # -- The username of external database
   username: "root"
   # -- The password of external database
@@ -118,9 +119,9 @@ externalDatabase:
   # -- The database of external database
   database: "dolphinscheduler"
   # -- The params of external database
-  params: "characterEncoding=utf8"
+  params: ""
   # -- The driverClassName of external database
-  driverClassName: "org.postgresql.Driver"
+  driverClassName: "com.mysql.cj.jdbc.Driver"
 
 zookeeper:
   # -- If not exists external registry, the zookeeper registry will be used by default.

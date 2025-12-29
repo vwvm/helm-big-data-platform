@@ -74,13 +74,13 @@ spec:
             - name: hadoop-config-volume
               mountPath: /opt/hadoop/etc/hadoop/hdfs-site.xml
               subPath: hdfs-site.xml
-            - name: nfs-pvc
+            - name: hdfs-nfs-pvc
               mountPath: /opt/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20.jar
               subPath: lib/hadoop-lzo-0.4.20.jar
       volumes:
         - name: hadoop-config-volume
           configMap:
             name: hadoop-config
-        - name: nfs-pvc
+        - name: hdfs-nfs-pvc
           persistentVolumeClaim:
-            claimName: nfs-pvc
+            claimName: hdfs-nfs-pvc
