@@ -4,6 +4,8 @@ A helm deployment method of hadoop + hive
 
 ## 基础条件
 - kube 1.32.2
+  - 3 nods
+  - 4cpu/16gRam
 - helm version 4.0.1
 - helmfile version 1.2.2
 

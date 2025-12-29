@@ -1,0 +1,104 @@
+# ========== 基础部署配置 ==========
+replicaCount: 1
+nameOverride: "oracle23c"
+fullnameOverride: "oracle23c-free"
+
+# ========== 镜像配置 ==========
+image:
+  repository: container-registry.oracle.com/database/free
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# ========== Service 配置 ==========
+service:
+  type: NodePort
+  ports:
+    - name: oracle-listener
+      port: 1521
+      targetPort: 1521
+      nodePort: 31521
+      protocol: TCP
+    - name: em-express
+      port: 5500
+      targetPort: 5500
+      nodePort: 32550
+      protocol: TCP
+    - name: ords-apex
+      port: 8080
+      targetPort: 8080
+      nodePort: 32080
+      protocol: TCP
+
+# ========== 资源限制 ==========
+resources:
+  limits:
+    cpu: 2000m
+    memory: 3Gi
+  requests:
+    cpu: 1000m
+    memory: 2Gi
+
+# ========== 环境变量 ==========
+env:
+  - name: ORACLE_PWD
+    value: "Oracle123"
+  - name: ORACLE_PDB
+    value: "FREEPDB1"
+  - name: ORACLE_SID
+    value: "FREECDB"
+  - name: ORACLE_CHARACTERSET
+    value: "AL32UTF8"
+  - name: ORACLE_EDITION
+    value: "enterprise"
+  - name: INIT_SGA_SIZE
+    value: "1024"
+  - name: INIT_PGA_SIZE
+    value: "512"
+
+# ========== 持久化配置 ==========
+persistence:
+  enabled: true
+  storageClass: "local-path"
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  mountPath: "/opt/oracle/oradata"
+
+# ========== Pod 配置（修复缺失的字段） ==========
+pod:
+  labels: {}  # 添加这个字段
+  annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  livenessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -c
+        - /opt/oracle/healthcheck.sh
+    initialDelaySeconds: 300
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 3
+
+  readinessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -c
+        - /opt/oracle/healthcheck.sh
+    initialDelaySeconds: 300
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+# ========== 安全上下文 ==========
+securityContext:
+  runAsUser: 54321
+  runAsGroup: 54321
+  fsGroup: 54321
+
+# ========== 卷配置（可选） ==========
+volumes: []
+volumeMounts: []
